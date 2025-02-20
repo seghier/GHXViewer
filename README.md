@@ -18,4 +18,8 @@ A web-based tool for viewing **Grasshopper GHX & XML** files with basic editing 
   - **Scroll wheel** to zoom  
   - **Right-click + drag** to pan  
 
+## GH ↔ GHX Converter  
+To convert between **Grasshopper `.gh` and `.ghx`** files, use the **ghtoghxconverter.exe** tool:  
+👉 Just **drag the file** onto the app to convert it automatically.   
+
 ⚠️ **Note:** This project is **not for commercial use.**  
