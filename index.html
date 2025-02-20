@@ -7,676 +7,683 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
-	<style>
-	/* Update the color palette and styling to match the image */
-:root {
-    --bg-color: #e6e9ef;
-    --shadow-dark: rgba(163, 177, 198, 0.6);
-    --shadow-light: rgba(255, 255, 255, 0.9);
-    --text-color: #5b7a9d;
-    --icon-color: #4a69bd;
-}
-
-body {
-    font-family:
-        "Inter",
-        "SF Pro Display",
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        "Helvetica Neue",
-        Arial,
-        sans-serif;
-    display: flex;
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-}
-
-#side-panel-wrapper {
-    user-select: none;
-    width: 400px;
-    display: flex;
-    flex-direction: column;
-    border-right: 1px solid #ddd;
-    background-color: var(--bg-color);
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Button container - making it transparent/flat */
-.button-container {
-    padding: 20px;
-    background: transparent;
-    display: flex;
-    gap: 1px;
-    justify-content: space-between;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-#side-panel {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-    padding-right: 10px;
-}
-
-/* Section styles */
-.sectionPanel {
-    margin-bottom: 15px;
-    padding: 15px;
-    border-radius: 15px;
-    background: var(--bg-color);
-    box-shadow:
-        6px 6px 10px var(--shadow-dark),
-        -4px -4px 8px var(--shadow-light);
-    border: none;
-}
-
-/* Section header with gradient and proper neumorphic effect */
-.sectionHeader {
-    cursor: pointer;
-    background: linear-gradient(145deg, #00a2ff, #0078d7);
-    padding: 12px 15px;
-    margin: -15px -15px 15px -15px;
-    font-size: 15px;
-    color: white;
-    border-radius: 15px 15px 0 0;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    box-shadow:
-        2px 2px 4px rgba(0, 0, 0, 0.2),
-        -1px -1px 3px rgba(255, 255, 255, 0.1);
-}
-
-.sectionHeader:hover {
-    background: linear-gradient(145deg, #2d5aed, #4a69bd);
-}
-
-.sectionHeader.active {
-    box-shadow:
-        inset 2px 2px 5px rgba(0, 0, 0, 0.2),
-        inset -2px -2px 5px rgba(255, 255, 255, 0.1);
-}
-
-.sectionContent {
-    padding: 4px;
-    display: none;
-}
-
-/* Component panel styles */
-.componentPanel {
-    border: none;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 12px;
-    background: #f0f4f8; /* Lighter background for subsections */
-    box-shadow:
-        3px 3px 6px var(--shadow-dark),
-        -3px -3px 6px var(--shadow-light);
-}
-
-.collapsibleHeader {
-    cursor: pointer;
-    background: var(--bg-color);
-    padding: 12px 20px;
-    margin: -15px -15px 15px -15px;
-    font-size: 14px;
-    color: var(--text-color);
-    border-radius: 12px 12px 0 0;
-    font-weight: 500;
-    box-shadow:
-        4px 4px 8px var(--shadow-dark),
-        -4px -4px 8px var(--shadow-light);
-    transition: all 0.3s ease;
-}
-
-.collapsibleHeader.active {
-    box-shadow:
-        inset 2px 2px 5px var(--shadow-dark),
-        inset -2px -2px 5px var(--shadow-light);
-}
-
-/* Form elements */
-.componentPanel label {
-    display: block;
-    margin: 8px 0 4px 0;
-    font-weight: 500;
-    font-size: 13px;
-    color: var(--text-color);
-}
-
-/* Input fields with smoke white background */
-.componentPanel input[type="text"],
-.componentPanel input[type="number"],
-.componentPanel textarea {
-    width: 100%;
-    padding: 8px 12px;
-    margin-top: 2px;
-    box-sizing: border-box;
-    font-size: 13px;
-    border: none;
-    border-radius: 8px;
-    background: #f8fafc; /* Smoke white color */
-    color: var(--text-color);
-    box-shadow:
-        inset 2px 2px 4px rgba(163, 177, 198, 0.4),
-        inset -2px -2px 4px rgba(255, 255, 255, 0.8);
-}
-
-/* Make textarea only vertically resizable */
-.componentPanel textarea {
-    resize: vertical;
-    min-height: 60px;
-}
-
-/* Add hover effect for inputs */
-.componentPanel input[type="text"]:hover,
-.componentPanel input[type="number"]:hover,
-.componentPanel textarea:hover {
-    background: #ffffff;
-}
-
-/* Add focus effect for inputs */
-.componentPanel input[type="text"]:focus,
-.componentPanel input[type="number"]:focus,
-.componentPanel textarea:focus {
-    background: #ffffff;
-    outline: none;
-    box-shadow:
-        inset 2px 2px 4px rgba(163, 177, 198, 0.6),
-        inset -2px -2px 4px rgba(255, 255, 255, 0.9);
-}
-
-/* Updated button style with stronger neumorphic effect */
-button {
-    padding: 15px 30px;
-    border: none;
-    border-radius: 50px;
-    background: var(--bg-color);
-    box-shadow:
-        6px 6px 12px var(--shadow-dark),
-        -6px -6px 12px var(--shadow-light);
-    color: var(--text-color);
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
-    margin: 0;
-}
-
-button:hover {
-    color: var(--icon-color);
-    box-shadow:
-        2px 2px 4px var(--shadow-dark),
-        -2px -2px 4px var(--shadow-light);
-}
-
-button:active {
-    box-shadow:
-        inset 4px 4px 8px var(--shadow-dark),
-        inset -4px -4px 8px var(--shadow-light);
-    transform: translateY(1px);
-}
-
-/* SVG viewer styles */
-#svgViewer {
-    width: 100%;
-    height: 97%;
-    /*border: 1px solid #e2e8f0;*/
-    border-radius: 16px;
-    padding-top: 2px;
-    min-height: 80vh;
-    position: relative;
-    background-color: #efefef;
-    background-image: linear-gradient(0deg, rgba(180, 189, 200, 0.4) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(203, 213, 225, 0.4) 1px, transparent 1px);
-    background-size: 100px 50px;
-    box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.25);
-    overflow: hidden;
-}
-
-/* XML content styles */
-#xmlContainer {
-    margin-top: 10px;
-    border-radius: 8px;
-    background-color: #f5f5f5;
-}
-
-.xml-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #ddd;
-    border-radius: 8px 8px 0 0;
-}
-
-#fileContent {
-    height: 800px;
-    overflow-y: auto;
-    display: none;
-    background-color: #f5f5f5;
-    padding: 20px;
-    border-radius: 0 0 8px 8px;
-    font-family: "Consolas", "Monaco", "Andale Mono", monospace;
-    font-size: 14px;
-    line-height: 1.4;
-    white-space: pre;
-    word-wrap: normal;
-    overflow-x: auto;
-    margin: 0;
-}
-
-/* Toggle button style matching the image */
-.toggle-button {
-    position: relative;
-    width: 120px;
-    height: 40px;
-    background: var(--bg-color);
-    border-radius: 20px;
-    box-shadow:
-        inset 3px 3px 7px var(--shadow-dark),
-        inset -3px -3px 7px var(--shadow-light);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    padding: 0 5px;
-    margin: 15px;
-}
-
-.toggle-slider {
-    position: absolute;
-    width: 50px;
-    height: 30px;
-    background: var(--bg-color);
-    border-radius: 15px;
-    box-shadow:
-        4px 4px 8px var(--shadow-dark),
-        -4px -4px 8px var(--shadow-light);
-    transition: transform 0.3s ease;
-    left: 5px;
-}
-
-.toggle-button.xml .toggle-slider {
-    transform: translateX(60px);
-}
-
-.toggle-text {
-    position: absolute;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-color);
-    transition: opacity 0.3s ease;
-}
-
-.toggle-text.ghx {
-    left: 15px;
-}
-
-.toggle-text.xml {
-    right: 15px;
-}
-
-.toggle-button.xml .toggle-text.ghx,
-.toggle-button:not(.xml) .toggle-text.xml {
-    opacity: 0.4;
-}
-
-/* Main area styles */
-#main {
-    flex: 1;
-    padding: 17px;
-    overflow-y: auto;
-    position: relative;
-    background-color: var(--bg-color);
-}
-
-/* SVG specific styles */
-svg {
-    width: 100%;
-    height: 100%;
-    border: 1px solid #ddd;
-    margin-top: 10px;
-    background-color: #2d2d2d;
-    border-radius: 8px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    cursor: default;
-    user-select: none;
-}
-
-.draggable {
-    user-select: none;
-}
-
-/* Color input styles */
-.colorInputGroup {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 5px;
-}
-
-.colorPicker {
-    width: 50px;
-    height: 30px;
-    padding: 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-/* Component highlight effects */
-.component {
-    transition:
-        stroke 0.2s ease,
-        stroke-width 0.2s ease,
-        filter 0.2s ease;
-}
-
-.highlight {
-    stroke: #2196f3 !important;
-    stroke-width: 1px !important;
-    filter: drop-shadow(0 0 5px rgba(33, 150, 243, 0.7));
-    animation: pulse 0.8s infinite alternate;
-}
-
-@keyframes pulse {
-    from {
-        stroke-width: 1px;
-        filter: drop-shadow(0 0 3px rgba(33, 150, 243, 0.5));
-    }
-    to {
-        stroke-width: 2px;
-        filter: drop-shadow(0 0 8px rgba(33, 150, 243, 0.9));
-    }
-}
-
-/* Modal styles */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.modal.show {
-    display: block;
-    opacity: 1;
-}
-
-.modal-content {
-    background-color: #ffffff;
-    margin: 20% auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    width: 300px;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Filename display */
-#filenameDisplay {
-    display: none;
-    user-select: none;
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(255, 255, 255, 0.8);
-    padding: 5px 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 18px;
-    color: #333;
-    z-index: 100;
-}
-
-/* Global scrollbar styling for entire app */
-* {
-    scrollbar-width: thin; /* For Firefox */
-    scrollbar-color: #c1c2c5 #f1f1f1; /* For Firefox */
-}
-
-/* Webkit scrollbar styling for all elements */
-*::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
-}
-
-*::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 8px;
-    margin: 3px;
-}
-
-*::-webkit-scrollbar-thumb {
-    background-color: #c1c2c5;
-    border-radius: 6px;
-    border: 3px solid #f1f1f1;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-    background-color: #979da1;
-}
-
-*::-webkit-scrollbar-corner {
-    background: #f1f1f1;
-}
-
-/* Update the popup message styles to match the neumorphic theme */
-.popup-message {
-    display: none;
-    position: fixed;
-    top: 50%; /* Center vertically */
-    left: 50%;
-    transform: translate(-50%, -50%); /* Center both vertically and horizontally */
-    background: var(--bg-color);
-    color: var(--text-color);
-    padding: 15px 30px;
-    border-radius: 50px;
-    font-size: 14px;
-    font-weight: 600;
-    text-align: center;
-    white-space: nowrap;
-    z-index: 1000;
-    opacity: 0;
-    box-shadow:
-        6px 6px 12px var(--shadow-dark),
-        -6px -6px 12px var(--shadow-light);
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-}
-
-.popup-message.show {
-    opacity: 1;
-}
-
-/* Update error state */
-.popup-message.error {
-    color: #dc3545;
-    box-shadow:
-        6px 6px 12px rgba(220, 53, 69, 0.3),
-        -6px -6px 12px var(--shadow-light);
-}
-
-/* Updated toggle switch to match image exactly */
-.toggle-switch {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 8px 0;
-}
-
-.toggle-switch input[type="checkbox"] {
-    display: none;
-}
-
-.toggle-switch label {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-    margin: 0;
-    padding: 0;
-    font-size: 14px;
-    color: var(--text-color);
-}
-
-.toggle-switch label:before {
-    content: "";
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-    border-radius: 8px;
-    background: var(--bg-color);
-    box-shadow:
-        2px 2px 4px var(--shadow-dark),
-        -2px -2px 4px var(--shadow-light);
-    transition: all 0.3s ease;
-}
-
-.toggle-switch input:checked + label:before {
-    background: linear-gradient(145deg, #00a2ff, #0078d7);
-    box-shadow:
-        inset 2px 2px 4px rgba(0, 0, 0, 0.2),
-        inset -1px -1px 3px rgba(255, 255, 255, 0.1);
-}
-
-.toggle-switch input:checked + label:after {
-    content: "✓";
-    position: absolute;
-    left: 7px;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-/* Custom checkbox styling to match the image */
-.checkbox-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 8px 0;
-}
-
-.checkbox-wrapper input[type="checkbox"] {
-    display: none;
-}
-
-.checkbox-wrapper label {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-    margin: 0;
-    padding: 0;
-    font-size: 14px;
-    color: var(--text-color);
-}
-
-.checkbox-wrapper label:before {
-    content: "";
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-    border-radius: 8px;
-    background: var(--bg-color);
-    box-shadow:
-        2px 2px 4px var(--shadow-dark),
-        -2px -2px 4px var(--shadow-light);
-    transition: all 0.3s ease;
-}
-
-.checkbox-wrapper input[type="checkbox"]:checked + label:before {
-    background: linear-gradient(145deg, #00a2ff, #0078d7);
-    box-shadow:
-        inset 2px 2px 4px rgba(0, 0, 0, 0.2),
-        inset -1px -1px 3px rgba(255, 255, 255, 0.1);
-}
-
-.checkbox-wrapper input[type="checkbox"]:checked + label:after {
-    content: "✓";
-    position: absolute;
-    left: 7px;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-/* Section and subsection highlight styles */
-.sectionPanel.selected {
-    box-shadow:
-        0 0 15px rgba(0, 162, 255, 0.3),
-        4px 4px 8px var(--shadow-dark),
-        -4px -4px 8px var(--shadow-light);
-    transition: box-shadow 0.3s ease;
-}
-
-.componentPanel.selected {
-    box-shadow:
-        0 0 12px rgba(72, 187, 120, 0.3),
-        3px 3px 6px var(--shadow-dark),
-        -3px -3px 6px var(--shadow-light);
-    background: #e8f5e9;
-    transition: all 0.3s ease;
-}
-
-/* Component highlight on double click */
-.highlight-orange {
-    stroke: #ff9800 !important;
-    stroke-width: 1px !important;
-    filter: drop-shadow(0 0 8px rgba(255, 152, 0, 0.6));
-    animation: pulseOrange 2s ease-out forwards;
-}
-
-@keyframes pulseOrange {
-    0% {
-        stroke-width: 2px;
-        filter: drop-shadow(0 0 8px rgba(255, 152, 0, 0.8));
-    }
-    100% {
-        stroke-width: 1px;
-        filter: none;
-    }
-}
-
-/* Add this to the modal styles section */
-.modal-buttons {
-    display: flex;
-    gap: 30px;
-    justify-content: center;
-    margin-top: 25px;
-}
-
-/* Update existing button styles in modals */
-.modal-content button {
-    min-width: 100px;
-    padding: 12px 25px;
-    margin: 0;
-}
-
-/* If you have specific confirmation dialogs, add this */
-.confirm-dialog-buttons {
-    display: flex;
-    gap: 25px;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-	</style>
+    <style>
+        /* Update the color palette and styling to match the image */
+        :root {
+            --bg-color: #e6e9ef;
+            --shadow-dark: rgba(163, 177, 198, 0.6);
+            --shadow-light: rgba(255, 255, 255, 0.9);
+            --text-color: #5b7a9d;
+            --icon-color: #4a69bd;
+        }
+
+        body {
+            font-family:
+                "Inter",
+                "SF Pro Display",
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                "Helvetica Neue",
+                Arial,
+                sans-serif;
+            display: flex;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        #side-panel-wrapper {
+            user-select: none;
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #ddd;
+            background-color: var(--bg-color);
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Button container - making it transparent/flat */
+        .button-container {
+            padding: 20px;
+            background: transparent;
+            display: flex;
+            gap: 1px;
+            justify-content: space-between;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #side-panel {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            padding-right: 10px;
+        }
+
+        /* Section styles */
+        .sectionPanel {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 15px;
+            background: var(--bg-color);
+            box-shadow:
+                6px 6px 10px var(--shadow-dark),
+                -4px -4px 8px var(--shadow-light);
+            border: none;
+        }
+
+        /* Section header with gradient and proper neumorphic effect */
+        .sectionHeader {
+            cursor: pointer;
+            background: linear-gradient(145deg, #00a2ff, #0078d7);
+            padding: 12px 15px;
+            margin: -15px -15px 15px -15px;
+            font-size: 15px;
+            color: white;
+            border-radius: 15px 15px 0 0;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            box-shadow:
+                2px 2px 4px rgba(0, 0, 0, 0.2),
+                -1px -1px 3px rgba(255, 255, 255, 0.1);
+        }
+
+        .sectionHeader:hover {
+            background: linear-gradient(145deg, #2d5aed, #4a69bd);
+        }
+
+        .sectionHeader.active {
+            box-shadow:
+                inset 2px 2px 5px rgba(0, 0, 0, 0.2),
+                inset -2px -2px 5px rgba(255, 255, 255, 0.1);
+        }
+
+        .sectionContent {
+            padding: 4px;
+            display: none;
+        }
+
+        /* Component panel styles */
+        .componentPanel {
+            border: none;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 12px;
+            background: #f0f4f8;
+            /* Lighter background for subsections */
+            box-shadow:
+                3px 3px 6px var(--shadow-dark),
+                -3px -3px 6px var(--shadow-light);
+        }
+
+        .collapsibleHeader {
+            cursor: pointer;
+            background: var(--bg-color);
+            padding: 12px 20px;
+            margin: -15px -15px 15px -15px;
+            font-size: 14px;
+            color: var(--text-color);
+            border-radius: 12px 12px 0 0;
+            font-weight: 500;
+            box-shadow:
+                4px 4px 8px var(--shadow-dark),
+                -4px -4px 8px var(--shadow-light);
+            transition: all 0.3s ease;
+        }
+
+        .collapsibleHeader.active {
+            box-shadow:
+                inset 2px 2px 5px var(--shadow-dark),
+                inset -2px -2px 5px var(--shadow-light);
+        }
+
+        /* Form elements */
+        .componentPanel label {
+            display: block;
+            margin: 8px 0 4px 0;
+            font-weight: 500;
+            font-size: 13px;
+            color: var(--text-color);
+        }
+
+        /* Input fields with smoke white background */
+        .componentPanel input[type="text"],
+        .componentPanel input[type="number"],
+        .componentPanel textarea {
+            width: 100%;
+            padding: 8px 12px;
+            margin-top: 2px;
+            box-sizing: border-box;
+            font-size: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #f8fafc;
+            /* Smoke white color */
+            color: var(--text-color);
+            box-shadow:
+                inset 2px 2px 4px rgba(163, 177, 198, 0.4),
+                inset -2px -2px 4px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Make textarea only vertically resizable */
+        .componentPanel textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        /* Add hover effect for inputs */
+        .componentPanel input[type="text"]:hover,
+        .componentPanel input[type="number"]:hover,
+        .componentPanel textarea:hover {
+            background: #ffffff;
+        }
+
+        /* Add focus effect for inputs */
+        .componentPanel input[type="text"]:focus,
+        .componentPanel input[type="number"]:focus,
+        .componentPanel textarea:focus {
+            background: #ffffff;
+            outline: none;
+            box-shadow:
+                inset 2px 2px 4px rgba(163, 177, 198, 0.6),
+                inset -2px -2px 4px rgba(255, 255, 255, 0.9);
+        }
+
+        /* Updated button style with stronger neumorphic effect */
+        button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            background: var(--bg-color);
+            box-shadow:
+                6px 6px 12px var(--shadow-dark),
+                -6px -6px 12px var(--shadow-light);
+            color: var(--text-color);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            margin: 0;
+        }
+
+        button:hover {
+            color: var(--icon-color);
+            box-shadow:
+                2px 2px 4px var(--shadow-dark),
+                -2px -2px 4px var(--shadow-light);
+        }
+
+        button:active {
+            box-shadow:
+                inset 4px 4px 8px var(--shadow-dark),
+                inset -4px -4px 8px var(--shadow-light);
+            transform: translateY(1px);
+        }
+
+        /* SVG viewer styles */
+        #svgViewer {
+            width: 100%;
+            height: 97%;
+            /*border: 1px solid #e2e8f0;*/
+            border-radius: 16px;
+            padding-top: 2px;
+            min-height: 80vh;
+            position: relative;
+            background-color: #efefef;
+            background-image: linear-gradient(0deg, rgba(180, 189, 200, 0.4) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(203, 213, 225, 0.4) 1px, transparent 1px);
+            background-size: 100px 50px;
+            box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+
+        /* XML content styles */
+        #xmlContainer {
+            margin-top: 10px;
+            border-radius: 8px;
+            background-color: #f5f5f5;
+        }
+
+        .xml-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+            border-radius: 8px 8px 0 0;
+        }
+
+        #fileContent {
+            height: 800px;
+            overflow-y: auto;
+            display: none;
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 0 0 8px 8px;
+            font-family: "Consolas", "Monaco", "Andale Mono", monospace;
+            font-size: 14px;
+            line-height: 1.4;
+            white-space: pre;
+            word-wrap: normal;
+            overflow-x: auto;
+            margin: 0;
+        }
+
+        /* Toggle button style matching the image */
+        .toggle-button {
+            position: relative;
+            width: 120px;
+            height: 40px;
+            background: var(--bg-color);
+            border-radius: 20px;
+            box-shadow:
+                inset 3px 3px 7px var(--shadow-dark),
+                inset -3px -3px 7px var(--shadow-light);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 0 5px;
+            margin: 15px;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            width: 50px;
+            height: 30px;
+            background: var(--bg-color);
+            border-radius: 15px;
+            box-shadow:
+                4px 4px 8px var(--shadow-dark),
+                -4px -4px 8px var(--shadow-light);
+            transition: transform 0.3s ease;
+            left: 5px;
+        }
+
+        .toggle-button.xml .toggle-slider {
+            transform: translateX(60px);
+        }
+
+        .toggle-text {
+            position: absolute;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-color);
+            transition: opacity 0.3s ease;
+        }
+
+        .toggle-text.ghx {
+            left: 15px;
+        }
+
+        .toggle-text.xml {
+            right: 15px;
+        }
+
+        .toggle-button.xml .toggle-text.ghx,
+        .toggle-button:not(.xml) .toggle-text.xml {
+            opacity: 0.4;
+        }
+
+        /* Main area styles */
+        #main {
+            flex: 1;
+            padding: 17px;
+            overflow-y: auto;
+            position: relative;
+            background-color: var(--bg-color);
+        }
+
+        /* SVG specific styles */
+        svg {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+            background-color: #2d2d2d;
+            border-radius: 8px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: default;
+            user-select: none;
+        }
+
+        .draggable {
+            user-select: none;
+        }
+
+        /* Color input styles */
+        .colorInputGroup {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .colorPicker {
+            width: 50px;
+            height: 30px;
+            padding: 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* Component highlight effects */
+        .component {
+            transition:
+                stroke 0.2s ease,
+                stroke-width 0.2s ease,
+                filter 0.2s ease;
+        }
+
+        .highlight {
+            stroke: #2196f3 !important;
+            stroke-width: 1px !important;
+            filter: drop-shadow(0 0 5px rgba(33, 150, 243, 0.7));
+            animation: pulse 0.8s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from {
+                stroke-width: 1px;
+                filter: drop-shadow(0 0 3px rgba(33, 150, 243, 0.5));
+            }
+
+            to {
+                stroke-width: 2px;
+                filter: drop-shadow(0 0 8px rgba(33, 150, 243, 0.9));
+            }
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .modal.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            margin: 20% auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Filename display */
+        #filenameDisplay {
+            display: none;
+            user-select: none;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 18px;
+            color: #333;
+            z-index: 100;
+        }
+
+        /* Global scrollbar styling for entire app */
+        * {
+            scrollbar-width: thin;
+            /* For Firefox */
+            scrollbar-color: #c1c2c5 #f1f1f1;
+            /* For Firefox */
+        }
+
+        /* Webkit scrollbar styling for all elements */
+        *::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 8px;
+            margin: 3px;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background-color: #c1c2c5;
+            border-radius: 6px;
+            border: 3px solid #f1f1f1;
+        }
+
+        *::-webkit-scrollbar-thumb:hover {
+            background-color: #979da1;
+        }
+
+        *::-webkit-scrollbar-corner {
+            background: #f1f1f1;
+        }
+
+        /* Update the popup message styles to match the neumorphic theme */
+        .popup-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            /* Center vertically */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* Center both vertically and horizontally */
+            background: var(--bg-color);
+            color: var(--text-color);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            white-space: nowrap;
+            z-index: 1000;
+            opacity: 0;
+            box-shadow:
+                6px 6px 12px var(--shadow-dark),
+                -6px -6px 12px var(--shadow-light);
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .popup-message.show {
+            opacity: 1;
+        }
+
+        /* Update error state */
+        .popup-message.error {
+            color: #dc3545;
+            box-shadow:
+                6px 6px 12px rgba(220, 53, 69, 0.3),
+                -6px -6px 12px var(--shadow-light);
+        }
+
+        /* Updated toggle switch to match image exactly */
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 8px 0;
+        }
+
+        .toggle-switch input[type="checkbox"] {
+            display: none;
+        }
+
+        .toggle-switch label {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .toggle-switch label:before {
+            content: "";
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            border-radius: 8px;
+            background: var(--bg-color);
+            box-shadow:
+                2px 2px 4px var(--shadow-dark),
+                -2px -2px 4px var(--shadow-light);
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch input:checked+label:before {
+            background: linear-gradient(145deg, #00a2ff, #0078d7);
+            box-shadow:
+                inset 2px 2px 4px rgba(0, 0, 0, 0.2),
+                inset -1px -1px 3px rgba(255, 255, 255, 0.1);
+        }
+
+        .toggle-switch input:checked+label:after {
+            content: "✓";
+            position: absolute;
+            left: 7px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* Custom checkbox styling to match the image */
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 8px 0;
+        }
+
+        .checkbox-wrapper input[type="checkbox"] {
+            display: none;
+        }
+
+        .checkbox-wrapper label {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .checkbox-wrapper label:before {
+            content: "";
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            border-radius: 8px;
+            background: var(--bg-color);
+            box-shadow:
+                2px 2px 4px var(--shadow-dark),
+                -2px -2px 4px var(--shadow-light);
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-wrapper input[type="checkbox"]:checked+label:before {
+            background: linear-gradient(145deg, #00a2ff, #0078d7);
+            box-shadow:
+                inset 2px 2px 4px rgba(0, 0, 0, 0.2),
+                inset -1px -1px 3px rgba(255, 255, 255, 0.1);
+        }
+
+        .checkbox-wrapper input[type="checkbox"]:checked+label:after {
+            content: "✓";
+            position: absolute;
+            left: 7px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* Section and subsection highlight styles */
+        .sectionPanel.selected {
+            box-shadow:
+                0 0 15px rgba(0, 162, 255, 0.3),
+                4px 4px 8px var(--shadow-dark),
+                -4px -4px 8px var(--shadow-light);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .componentPanel.selected {
+            box-shadow:
+                0 0 12px rgba(72, 187, 120, 0.3),
+                3px 3px 6px var(--shadow-dark),
+                -3px -3px 6px var(--shadow-light);
+            background: #e8f5e9;
+            transition: all 0.3s ease;
+        }
+
+        /* Component highlight on double click */
+        .highlight-orange {
+            stroke: #ff9800 !important;
+            stroke-width: 1px !important;
+            filter: drop-shadow(0 0 8px rgba(255, 152, 0, 0.6));
+            animation: pulseOrange 2s ease-out forwards;
+        }
+
+        @keyframes pulseOrange {
+            0% {
+                stroke-width: 2px;
+                filter: drop-shadow(0 0 8px rgba(255, 152, 0, 0.8));
+            }
+
+            100% {
+                stroke-width: 1px;
+                filter: none;
+            }
+        }
+
+        /* Add this to the modal styles section */
+        .modal-buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        /* Update existing button styles in modals */
+        .modal-content button {
+            min-width: 100px;
+            padding: 12px 25px;
+            margin: 0;
+        }
+
+        /* If you have specific confirmation dialogs, add this */
+        .confirm-dialog-buttons {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 
 <body>
@@ -719,7 +726,7 @@ svg {
                 <div class="sectionContent" id="scribblesContainer"></div>
             </div>
             <div class="sectionPanel">
-                <h2 class="sectionHeader">Python Components</h2>
+                <h2 class="sectionHeader">GHPython Components</h2>
                 <div class="sectionContent" id="pythonContainer"></div>
             </div>
             <div class="sectionPanel">
@@ -743,6 +750,11 @@ svg {
             <div class="sectionPanel">
                 <h2 class="sectionHeader">Other Components</h2>
                 <div class="sectionContent" id="generalContainer"></div>
+            </div>
+
+            <div class="sectionPanel">
+                <h2 class="sectionHeader">Placeholders</h2>
+                <div class="sectionContent" id="placeholderContainer"></div>
             </div>
         </div>
     </div>
@@ -836,7 +848,8 @@ svg {
             colorSwatches: new Set(),
             scribbles: new Set(),
             sketches: new Set(),
-            genePools: new Set()
+            genePools: new Set(),
+            placeHolders: new Set()
         };
 
         // DOM element references
@@ -857,6 +870,7 @@ svg {
         const generalContainer = document.getElementById("generalContainer");
         const colorSwatchContainer = document.getElementById("colorSwatchContainer");
         const genePoolContainer = document.getElementById("genePoolContainer");
+        const placeholderContainer = document.getElementById("placeholderContainer");
 
         let currentFormat = "original"; // Can be 'original' or 'converted'
         let originalContent = "";
@@ -1153,6 +1167,55 @@ svg {
             const [a, r, g, b] = argbString.split(";").map((num) => parseInt(num.trim(), 10));
             // Ignore alpha for the color input (or handle it as needed)
             return "#" + [r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("");
+        }
+
+        // ----- PLACEHOLDERS -----
+        function populatePlaceholderList() {
+            // Clear existing GUIDs and container content
+            sectionGuids.placeHolders.clear();
+            placeholderContainer.innerHTML = "";
+
+            // Find placeholder objects (those with a Lib attribute)
+            const placeholderObjects = Array.from(xmlDoc.querySelectorAll('chunk[name="Object"]')).filter((obj) => {
+                const libItem = obj.querySelector('item[name="Lib"]');
+                return libItem !== null;
+            });
+
+            placeholderObjects.forEach((placeholderObj, index) => {
+                const containerChunk = placeholderObj.querySelector('chunk[name="Container"]');
+                const instanceGuid = containerChunk?.querySelector('item[name="InstanceGuid"]')?.textContent;
+                if (instanceGuid) {
+                    sectionGuids.placeHolders.add(instanceGuid);
+                }
+
+                const nameVal = containerChunk?.querySelector('item[name="Name"]')?.textContent || "";
+                const nicknameVal = containerChunk?.querySelector('item[name="NickName"]')?.textContent || "";
+                const descriptionVal = containerChunk?.querySelector('item[name="Description"]')?.textContent || "";
+                const libVal = placeholderObj.querySelector('item[name="Lib"]')?.textContent || "Unknown Plugin";
+
+                const div = document.createElement("div");
+                div.className = "componentPanel placeholder";
+                div.dataset.guid = instanceGuid;
+                div.innerHTML = `
+            <h3 class="collapsibleHeader">Placeholder ${index + 1} (${nameVal})</h3>
+            <div class="collapsibleContent">
+                <label>Instance GUID</label>
+                <input type="text" class="instanceGuid" value="${instanceGuid}" readonly>
+                <label>Name</label>
+                <input type="text" class="name" value="${nameVal}" readonly>
+                <label>NickName</label>
+                <input type="text" class="nickname" value="${nicknameVal}" readonly>
+                <label>Description</label>
+                <textarea class="description" rows="4" readonly>${descriptionVal}</textarea>
+                <label>Plugin Library</label>
+                <input type="text" class="library" value="${libVal}" readonly>
+            </div>
+        `;
+
+                placeholderContainer.appendChild(div);
+            });
+
+            attachCollapseFor(placeholderContainer);
         }
 
         // ----- GENEPOOLS -----
@@ -1578,6 +1641,7 @@ svg {
                 if (!containerChunk) return;
 
                 const instanceGuid = containerChunk.querySelector('item[name="InstanceGuid"]')?.textContent;
+                if (!instanceGuid) return;
 
                 const itemName = componentObj.querySelector('item[name="Name"]')?.textContent;
                 // Skip if the item name is in the skipItems list
@@ -1591,6 +1655,7 @@ svg {
 
                 // Check if this component belongs to any other section
                 const belongsToOtherSection =
+                    sectionGuids.placeHolders.has(instanceGuid) ||  // Add placeholders check here
                     sectionGuids.sliders.has(instanceGuid) ||
                     sectionGuids.toggles.has(instanceGuid) ||
                     sectionGuids.panels.has(instanceGuid) ||
@@ -1602,7 +1667,7 @@ svg {
                     sectionGuids.colorSwatches.has(instanceGuid) ||
                     sectionGuids.scribbles.has(instanceGuid);
 
-                if (!belongsToOtherSection && instanceGuid) {
+                if (!belongsToOtherSection) {
                     sectionGuids.general.add(instanceGuid);
 
                     const div = document.createElement("div");
@@ -1922,7 +1987,10 @@ svg {
             sectionGuids.persistentData.clear(); // Clear existing GUIDs
             // Get all Container chunks that have at least one descendant PersistentData chunk.
             const containersWithPD = Array.from(xmlDoc.querySelectorAll('chunk[name="Container"]')).filter(
-                (container) => container.querySelector('chunk[name="PersistentData"]')
+                (container) => {
+                    const instanceGuid = container.querySelector('item[name="InstanceGuid"]')?.textContent;
+                    return container.querySelector('chunk[name="PersistentData"]') && !sectionGuids.placeHolders.has(instanceGuid);
+                }
             );
             persistentDataContainer.innerHTML = "";
 
@@ -2761,12 +2829,12 @@ svg {
                     name: compName,
                     nickname: compNick,
                     description: description,
-                    locked: lockedVal, // <-- NEW: add locked property here
-                    hidden: hiddenVal, // <-- NEW: add hidden property here
-                    // ... (other properties like persistentData, valueData, etc.)
+                    locked: lockedVal,
+                    hidden: hiddenVal,
+                    isPlaceholder: sectionGuids.placeHolders.has(compGUID), // Add this line
                     bounds: compBounds,
                     pivot: compPivot,
-                    pivotOffset: pivotOffset, // **Store the computed pivot offset**
+                    pivotOffset: pivotOffset,
                     instanceGuid: containerInstanceGuid,
                     inputs: [],
                     outputs: [],
@@ -2862,6 +2930,11 @@ svg {
                     const pInstanceGuid = paramChunk.querySelector('item[name="InstanceGuid"]')
                         ? paramChunk.querySelector('item[name="InstanceGuid"]').textContent.trim()
                         : component.guid + "-inp";
+
+                    // Add this line to capture WireDisplay property
+                    const wireDisplayEl = paramChunk.querySelector('item[name="WireDisplay"]');
+                    const wireDisplay = wireDisplayEl ? parseInt(wireDisplayEl.textContent.trim()) : 1;
+
                     let pBounds = { x: 0, y: 0, w: 0, h: 0 };
                     let pPivot = { x: 0, y: 0 };
                     const pAttr = paramChunk.querySelector('chunk[name="Attributes"]');
@@ -2913,6 +2986,7 @@ svg {
                         sources: Array.from(paramChunk.querySelectorAll('item[name="Source"]')).map((src) =>
                             src.textContent.trim()
                         ),
+                        wireDisplay: wireDisplay, // Add this line
                         persistentData: inputPersistentData
                     });
                 });
@@ -3076,8 +3150,14 @@ svg {
                 fileContent.textContent = originalXmlText;
                 const parser = new DOMParser();
                 xmlDoc = parser.parseFromString(originalXmlText, "application/xml");
+                
+                // Populate placeholders first
+                populatePlaceholderList();
+                
+                // Then display components (now it can use the populated placeHolders set)
                 displayComponents(xmlDoc);
-                // Populate all component sections
+                
+                // Populate other sections
                 populateSlidersList();
                 populateTogglesList();
                 populatePanelsList();
@@ -3091,6 +3171,7 @@ svg {
                 populateSketchesList();
                 populateGenePoolList();
                 populateGeneralComponentsList();
+                
                 // Attach collapse behavior to the section headers
                 //attachSectionCollapse();
                 updateSectionCounts();
@@ -3386,16 +3467,18 @@ svg {
 
             // Update text position
             const text = svgGroup.querySelector(".component-name");
+            const icon = svgGroup.querySelector(".component-icon");
             if (text) {
                 text.setAttribute("x", currentComponent.bounds.x + currentComponent.bounds.w / 2);
-                text.setAttribute("y", currentComponent.bounds.y - 5);
-            }
-
-            // Update icon position
-            const icon = svgGroup.querySelector(".component-icon");
-            if (icon) {
-                icon.setAttribute("x", currentComponent.bounds.x + (currentComponent.bounds.w - ICON_SIZE) / 2);
-                icon.setAttribute("y", currentComponent.bounds.y + (currentComponent.bounds.h - ICON_SIZE) / 2);
+                // If there's an icon, keep text above, otherwise keep it centered
+                if (icon) {
+                    text.setAttribute("y", currentComponent.bounds.y - 5);
+                    // Update icon position
+                    icon.setAttribute("x", currentComponent.bounds.x + (currentComponent.bounds.w - ICON_SIZE) / 2);
+                    icon.setAttribute("y", currentComponent.bounds.y + (currentComponent.bounds.h - ICON_SIZE) / 2);
+                } else {
+                    text.setAttribute("y", currentComponent.bounds.y + currentComponent.bounds.h / 2);
+                }
             }
         }
 
@@ -3457,11 +3540,10 @@ svg {
             let targetSection = null;
             let sectionId = "";
 
-            // Reset view first
-            //zoomAll();
-
             // Find which section contains this GUID
-            if (sectionGuids.sliders.has(component.instanceGuid)) {
+            if (sectionGuids.placeHolders.has(component.instanceGuid)) {  // Add this check
+                sectionId = "#placeholderContainer";
+            } else if (sectionGuids.sliders.has(component.instanceGuid)) {
                 sectionId = "#slidersContainer";
             } else if (sectionGuids.toggles.has(component.instanceGuid)) {
                 sectionId = "#togglesContainer";
@@ -3499,7 +3581,7 @@ svg {
                     const content = panel.querySelector(".collapsibleContent");
                     if (panel.dataset.guid === component.instanceGuid) {
                         content.style.display = "block";
-                        
+
                         // Zoom to component after a short delay
                         setTimeout(() => {
                             zoomToComponent(component);
@@ -3853,13 +3935,15 @@ function drawSVGWithoutZoomReset(components, connections) {
             connections.forEach((conn) => {
                 let fromPos = null,
                     toPos = null;
-                // When finding positions for wires
+                let isHiddenWire = false;
+
+                // When finding positions for wires, also check for hidden wire status
                 visibleComponents.forEach((comp) => {
                     comp.outputs.forEach((param) => {
                         if (param.instanceGuid === conn.fromOutputInstanceGuid) {
                             const pos = getParamPosition(param, "output");
                             fromPos = {
-                                x: comp.bounds.x + comp.bounds.w, // Use the same positioning as output ports
+                                x: comp.bounds.x + comp.bounds.w,
                                 y: pos.y
                             };
                         }
@@ -3868,12 +3952,17 @@ function drawSVGWithoutZoomReset(components, connections) {
                         if (param.instanceGuid === conn.toInputInstanceGuid) {
                             const pos = getParamPosition(param, "input");
                             toPos = {
-                                x: comp.bounds.x, // Use the same positioning as input ports
+                                x: comp.bounds.x,
                                 y: pos.y
                             };
+                            // Check if this input has WireDisplay=2
+                            if (param.wireDisplay === 2) {
+                                isHiddenWire = true;
+                            }
                         }
                     });
                 });
+
                 if (fromPos && toPos) {
                     const path = document.createElementNS(svgNS, "path");
                     const dx = toPos.x - fromPos.x;
@@ -3882,10 +3971,18 @@ function drawSVGWithoutZoomReset(components, connections) {
                     const cp1x = fromPos.x + Math.min(distance * 0.4, 100);
                     const cp2x = toPos.x - Math.min(distance * 0.4, 100);
                     const d = `M ${fromPos.x} ${fromPos.y} C ${cp1x} ${fromPos.y}, ${cp2x} ${toPos.y}, ${toPos.x} ${toPos.y}`;
+
                     path.setAttribute('data-from', conn.fromOutputInstanceGuid);
                     path.setAttribute('data-to', conn.toInputInstanceGuid);
                     path.setAttribute("d", d);
                     path.setAttribute("stroke-opacity", "0.6");
+
+                    // Apply dashed style for hidden wires
+                    if (isHiddenWire) {
+                        path.setAttribute("stroke-dasharray", "4,4");
+                        path.setAttribute("stroke", "#888888"); // Lighter color for hidden wires
+                    }
+
                     connGroup.appendChild(path);
                 }
             });
@@ -3965,23 +4062,33 @@ function drawSVGWithoutZoomReset(components, connections) {
                     rect.setAttribute("ry", "4");
                     rect.classList.add("draggable");
 
-                    // Use dark grey if locked, otherwise use gradient (or panel color for panels)
-                    if (comp.locked && comp.locked.toLowerCase() === "true") {
+                    // Check if it's a placeholder using the stored GUIDs
+                    const isPlaceholder = sectionGuids.placeHolders.has(comp.instanceGuid);
+
+                    // Determine fill based on component type
+                    if (isPlaceholder) {
+                        rect.setAttribute("fill", "whitesmoke"); // Flat whitesmoke color
+                        rect.setAttribute("fill-opacity", "0.95"); // Slightly transparent
+                        rect.setAttribute("stroke", "#666666"); // Gray stroke for placeholders
+                        rect.setAttribute("stroke-dasharray", "2,2"); // Add dashed border
+                        rect.setAttribute("stroke-width", "0.75"); // Slightly thicker border
+                    } else if (comp.locked && comp.locked.toLowerCase() === "true") {
                         rect.setAttribute("fill", comp.name === "Panel" ? "rgba(200, 200, 180, 0.9)" : "url(#greyGradient)");
                     } else {
                         rect.setAttribute("fill", comp.name === "Panel" ? "rgba(255, 250, 90, 0.75)" : "url(#rectGradient)");
                     }
                     group.appendChild(rect);
 
+                    // Only add dashed rectangle for hidden components that are not placeholders
                     const isHidden = comp.hidden && comp.hidden.toLowerCase() === "true";
-                    if (isHidden) {
+                    if (isHidden && !isPlaceholder) {
                         // Create inflated dashed boundary
                         const dashedBound = document.createElementNS(svgNS, "rect");
                         const inflation = 3;
                         dashedBound.setAttribute("x", comp.bounds.x - inflation);
                         dashedBound.setAttribute("y", comp.bounds.y - inflation);
-                        dashedBound.setAttribute("width", comp.bounds.w + inflation * 2); // Changed from *3 to *2
-                        dashedBound.setAttribute("height", comp.bounds.h + inflation * 2); // Changed from *3 to *2
+                        dashedBound.setAttribute("width", comp.bounds.w + inflation * 2);
+                        dashedBound.setAttribute("height", comp.bounds.h + inflation * 2);
                         dashedBound.setAttribute("stroke", "#555555");
                         dashedBound.setAttribute("stroke-width", "0.75");
                         dashedBound.setAttribute("stroke-dasharray", "2,2");
@@ -3991,30 +4098,51 @@ function drawSVGWithoutZoomReset(components, connections) {
                         group.appendChild(dashedBound);
                     }
 
-                    // Add icon image
-                    const image = document.createElementNS(svgNS, "image");
-                    image.setAttributeNS("http://www.w3.org/1999/xlink", "href", getIconPath(comp.guid));
-                    //handleMissingIcon(image, comp); // Pass the whole comp object
-                    image.setAttribute("x", comp.bounds.x + (comp.bounds.w - ICON_SIZE) / 2);
-                    image.setAttribute("y", comp.bounds.y + (comp.bounds.h - ICON_SIZE) / 2);
-                    image.setAttribute("width", ICON_SIZE);
-                    image.setAttribute("height", ICON_SIZE);
-                    image.setAttribute("class", "component-icon");
-                    group.appendChild(image);
-
                     // Create text element for name (positioned above component)
                     const text = document.createElementNS(svgNS, "text");
                     text.setAttribute("x", comp.bounds.x + comp.bounds.w / 2);
                     text.setAttribute("y", comp.bounds.y - 5); // Position above component
                     text.setAttribute("text-anchor", "middle");
                     text.setAttribute("dominant-baseline", "auto");
-                    text.setAttribute("fill", comp.locked ? "#000000" : "black");
                     text.setAttribute("font-size", "12");
                     text.setAttribute("class", "component-name");
                     text.style.display = showComponentNames ? "block" : "none";
                     text.textContent = comp.nickname || comp.name;
                     text.classList.add("draggable");
+
+                    // Set text color based on component type
+                    if (isPlaceholder) {
+                        text.setAttribute("fill", "#666666"); // Gray text for placeholders
+                    } else {
+                        text.setAttribute("fill", comp.locked ? "#000000" : "black");
+                    }
                     group.appendChild(text);
+
+                    // Try to load the icon first
+                    const image = document.createElementNS(svgNS, "image");
+                    const iconPath = getIconPath(comp.guid);
+
+                    // Create a temporary Image object to check if the icon exists
+                    const tempImg = new Image();
+                    tempImg.onload = () => {
+                        // Icon exists, use it and keep text above
+                        image.setAttributeNS("http://www.w3.org/1999/xlink", "href", iconPath);
+                        image.setAttribute("x", comp.bounds.x + (comp.bounds.w - ICON_SIZE) / 2);
+                        image.setAttribute("y", comp.bounds.y + (comp.bounds.h - ICON_SIZE) / 2);
+                        image.setAttribute("width", ICON_SIZE);
+                        image.setAttribute("height", ICON_SIZE);
+                        image.setAttribute("class", "component-icon");
+                        group.appendChild(image);
+
+                        // Keep text above component
+                        text.setAttribute("y", comp.bounds.y - 5);
+                    };
+                    tempImg.onerror = () => {
+                        // Icon doesn't exist, use text in center of component
+                        text.setAttribute("y", comp.bounds.y + comp.bounds.h / 2);
+                        text.style.display = "block"; // Always show text when no icon
+                    };
+                    tempImg.src = iconPath;
 
                     // Draw input/output ports
                     comp.inputs.forEach((param) => {
@@ -4047,10 +4175,15 @@ function drawSVGWithoutZoomReset(components, connections) {
         }
 
         function isGroup(component) {
+            // Check if it's a group component but not a group container
+            if (component.guid === 'b0851fc0-ab55-47d8-bdda-cc6306a40176') {
+                return false; // This is a group component, we want to show it
+            }
+
             return (
-                component.name === "Group" ||
                 component.name === "GH_Group" ||
-                (component.container?.querySelector('item[name="Name"]')?.textContent || "").includes("Group")
+                (component.container?.querySelector('item[name="Name"]')?.textContent || "").includes("Group") &&
+                component.container?.querySelector('item[name="Objects"]') !== null // Check if it's a group container
             );
         }
 
@@ -4340,10 +4473,10 @@ function drawSVGWithoutZoomReset(components, connections) {
             try {
                 // Create a clone of the SVG for saving
                 const svgClone = svgElement.cloneNode(true);
-                
+
                 // Find all component groups in the clone
                 const groups = svgClone.querySelectorAll('g[data-guid]');
-                
+
                 groups.forEach(group => {
                     // Remove the icon
                     const icon = group.querySelector('.component-icon');
@@ -4360,9 +4493,9 @@ function drawSVGWithoutZoomReset(components, connections) {
                             const x = parseFloat(rect.getAttribute('x'));
                             const y = parseFloat(rect.getAttribute('y'));
                             const height = parseFloat(rect.getAttribute('height'));
-                            
+
                             // Position text in center of component
-                            text.setAttribute('y', y + height/2);
+                            text.setAttribute('y', y + height / 2);
                             text.setAttribute('dominant-baseline', 'middle');
                             text.style.display = 'block'; // Make sure text is visible
                         }
@@ -4395,7 +4528,7 @@ function drawSVGWithoutZoomReset(components, connections) {
         });
 
         // Add event listener for Alt+N toggle (add this near other event listeners)
-        document.addEventListener("keydown", function(e) {
+        document.addEventListener("keydown", function (e) {
             if (e.altKey && (e.key === "n" || e.key === "N")) {
                 showComponentNames = !showComponentNames;
                 document.querySelectorAll(".component-name").forEach(text => {
@@ -4406,7 +4539,7 @@ function drawSVGWithoutZoomReset(components, connections) {
 
         // Add this function to handle missing icons gracefully
         function handleMissingIcon(image, comp) {
-            image.addEventListener("error", function() {
+            image.addEventListener("error", function () {
                 console.warn(`Icon not found for component with GUID: ${comp.instanceGuid}`);
                 // Instead of removing the image, show the component name as fallback
                 const text = this.parentNode.querySelector(".component-name");
@@ -4544,6 +4677,114 @@ function drawSVGWithoutZoomReset(components, connections) {
                 showPopup("Error saving SVG!", true);
             }
         });
+
+        // Update the save XML function:
+        document.getElementById("saveXml").addEventListener("click", function () {
+            try {
+                const fileName = document.getElementById("fileName").value || "grasshopper";
+
+                // Create a deep clone of the XML to avoid modifying the original
+                const xmlClone = xmlDoc.cloneNode(true);
+
+                // Clean up the XML before saving
+                cleanupXML(xmlClone);
+
+                // Format the XML with proper indentation
+                const serializer = new XMLSerializer();
+                let xmlString = serializer.serializeToString(xmlClone);
+                xmlString = formatXMLString(xmlString);
+
+                // Create proper XML file header
+                const fullXml = `<?xml version="1.0" encoding="utf-8" standalone="yes"?>\n${xmlString}`;
+
+                // Create and trigger download
+                const blob = new Blob([fullXml], { type: "application/xml" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = fileName.replace(/\.[^/.]+$/, "") + ".ghx";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                showPopup("GHX saved successfully!");
+            } catch (error) {
+                console.error("Error saving GHX:", error);
+                showPopup("Error saving GHX!", true);
+            }
+        });
+
+        // Add these helper functions:
+        function cleanupXML(node) {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+                // Remove extra attributes
+                if (node.hasAttribute("Locked")) {
+                    node.removeAttribute("Locked");
+                }
+
+                // Format float values
+                if (node.tagName === "X" || node.tagName === "Y" || node.tagName === "W" || node.tagName === "H") {
+                    const value = parseFloat(node.textContent);
+                    if (!isNaN(value)) {
+                        node.textContent = value.toString();
+                    }
+                }
+
+                // Recursively clean child nodes
+                Array.from(node.children).forEach(child => cleanupXML(child));
+            }
+        }
+
+        function formatXMLString(xmlString) {
+            const INDENT = '  '; // Two spaces for indentation
+            let formatted = '';
+            let indent = '';
+
+            // Split the string into lines and remove empty lines
+            const lines = xmlString.trim().split('\n');
+
+            lines.forEach(line => {
+                // Decrease indent for closing tags
+                if (line.match(/^<\//)) {
+                    indent = indent.slice(2);
+                }
+
+                // Add line with proper indentation
+                formatted += indent + line.trim() + '\n';
+
+                // Increase indent for opening tags (if not self-closing)
+                if (line.match(/^<[^/]/) && !line.match(/[^?]\/>/)) {
+                    indent += INDENT;
+                }
+            });
+
+            return formatted;
+        }
+
+        // When updating wire display:
+        function updateWireDisplayInXML(componentId, wireDisplay) {
+            const componentNode = findComponentNodeById(componentId);
+            if (componentNode) {
+                const wireDisplayNode = componentNode.querySelector('item[name="WireDisplay"]');
+                if (wireDisplayNode) {
+                    wireDisplayNode.textContent = wireDisplay;
+                } else {
+                    // Create new WireDisplay node if it doesn't exist
+                    const newNode = xmlDoc.createElement('item');
+                    newNode.setAttribute('name', 'WireDisplay');
+                    newNode.setAttribute('type_name', 'gh_int32');
+                    newNode.setAttribute('type_code', '3');
+                    newNode.textContent = wireDisplay;
+                    componentNode.appendChild(newNode);
+                }
+            }
+        }
+
+        // Helper function to find component node in XML
+        function findComponentNodeById(id) {
+            return xmlDoc.querySelector(`chunk[name="Container"] > items > item[name="InstanceGuid"][type_name="gh_guid"]:contains("${id}")`);
+        }
 
     </script>
 </body>
