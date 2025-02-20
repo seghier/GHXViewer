@@ -1175,10 +1175,11 @@
             sectionGuids.placeHolders.clear();
             placeholderContainer.innerHTML = "";
 
-            // Find placeholder objects (those with a Lib attribute)
+            // Find placeholder objects (those with a Lib attribute), but exclude Python scripts
             const placeholderObjects = Array.from(xmlDoc.querySelectorAll('chunk[name="Object"]')).filter((obj) => {
+                const nameItem = obj.querySelector('item[name="Name"]');
                 const libItem = obj.querySelector('item[name="Lib"]');
-                return libItem !== null;
+                return libItem !== null && nameItem?.textContent !== "GhPython Script";
             });
 
             placeholderObjects.forEach((placeholderObj, index) => {
@@ -3132,8 +3133,10 @@
             const file = e.target.files[0];
             if (!file) return;
 
-            // Store the full file path
+            // Store the full file path and extension
             currentFilePath = file.path || file.webkitRelativePath || file.name;
+            fileName = file.name;
+            originalFileExtension = fileName.split('.').pop().toLowerCase(); // Store original extension
 
             // Update the filename display
             const filenameDisplay = document.getElementById("filenameDisplay");
